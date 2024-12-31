@@ -1,0 +1,194 @@
+{# Sidebar #}
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    {# Sidebar - Brand #}
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Document Retrieval<sup>2</sup></div>
+    </a>
+
+    {# Divider #}
+    <hr class="sidebar-divider my-0">
+
+    {# Nav Item - Dashboard #}
+    <li class="nav-item {% if active_menu == 'dashboard' %}active{% endif %}">
+        <a class="nav-link" href="/admin">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span></a>
+    </li>
+
+    {# Nav Item - Chatbot #}
+    <li class="nav-item">
+        <a class="nav-link" href="#" onclick="loadContent('/chatbot'); return false;">
+            <i class="fas fa-fw fa-comments"></i>
+            <span>Chatbot</span>
+        </a>
+    </li>
+
+    <!-- 구분선 추가 -->
+    {# Heading #}
+    <div class="sidebar-heading text-uppercase">
+        Interface
+    </div>
+            
+
+    {# Nav Item - Components Collapse Menu #}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUsers"
+            aria-expanded="false" aria-controls="collapseUsers">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>사용자</span>
+        </a>
+        <div id="collapseUsers" class="collapse" aria-labelledby="headingComponents"
+            data-bs-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">사용자 관리:</h6>
+                <a class="collapse-item" href="#" onclick="loadContent('/users/listview'); return false;">사용자 관리</a>
+            </div>
+        </div>
+    </li>
+
+    {# Divider #}
+    <hr class="sidebar-divider">
+
+    {# Heading #}
+    <div class="sidebar-heading text-uppercase">
+        Interface
+    </div>
+
+    {# Nav Item - Components Collapse Menu #}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseComponents"
+            aria-expanded="false" aria-controls="collapseComponents">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Vector Data</span>
+        </a>
+        <div id="collapseComponents" class="collapse" aria-labelledby="headingComponents"
+            data-bs-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Components:</h6>
+                <a class="collapse-item" href="#" onclick="loadContent('/upload'); return false;">Documents UPLOAD</a>
+                <a class="collapse-item" href="#" onclick="loadContent('/docu_list'); return false;">Documents List</a>
+            </div>
+        </div>
+    </li>
+
+    {# Nav Item - Utilities Collapse Menu #}
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUtilities"
+            aria-expanded="false" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>Utilities</span>
+        </a>
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+            data-bs-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Custom Utilities:</h6>
+                <a class="collapse-item" href="/utilities-color">Colors</a>
+                <a class="collapse-item" href="/utilities-border">Borders</a>
+                <a class="collapse-item" href="/utilities-animation">Animations</a>
+                <a class="collapse-item" href="/utilities-other">Other</a>
+            </div>
+        </div>
+    </li>
+
+    {# Divider #}
+    <hr class="sidebar-divider">
+
+    {# Divider #}
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+{# End of Sidebar #}
+
+<!-- Bootstrap JS -->
+
+<!-- 기존 스크립트가 없다면 추가 -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="/static/js/chatbot.js"></script>
+<script src="/static/js/upload.js"></script>
+<script src="/static/js/docu_list.js"></script>
+<script src="/static/js/user_manager.js"></script>
+<script>
+function loadContent(url) {
+
+    var mainContent = document.getElementById('main-content');
+    console.log('url:', url)
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            
+            if (mainContent) {
+                mainContent.innerHTML = data;
+                const script = document.createElement('script');
+                
+                if (window.uploadContent && url==='/upload') {
+                    console.log('url------------>:', url);
+                    script.textContent = window.uploadContent;
+                    mainContent.appendChild(script);
+                }
+
+                if (window.docu_list && url==='/docu_list') {
+                    console.log('url2------------>:', url);
+                    script.textContent = window.docu_list;
+                    mainContent.appendChild(script);
+                }
+
+                if (window.user_manager && url==='/users/listview') {
+                    console.log('user_manager ------------>:', window.user_manager);
+                    console.log('url3------------>:', url);
+                    script.textContent = window.user_manager;
+                    mainContent.appendChild(script);
+                }
+
+            } else {
+                console.error('main-content 요소를 찾을 수 없습니다.');
+            }
+
+            // 상단바와 사이드바 유지를 위한 처리
+            const topbar = document.querySelector('.navbar.topbar');
+            const sidebar = document.querySelector('.sidebar');
+            
+            // 상단바와 사이드바가 존재하면 유지
+            if (topbar) topbar.classList.remove('d-none');
+            if (sidebar) sidebar.classList.remove('d-none');
+
+            const sendButton = document.getElementById('sendButton');
+            const userInput = document.getElementById('userInput');                
+
+            if (sendButton && userInput) {                
+                sendButton.addEventListener('click', handleSendMessage);
+                
+                // Enter 키로도 메시지 전송 가능
+                userInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        handleSendMessage();
+                    }
+                });
+            }
+
+        })
+        .catch(error => {
+            console.error('Error loading content:', error);
+            alert("컨텐츠를 불러오는데 실패했습니다");
+        });
+}
+</script>
+
+
+   

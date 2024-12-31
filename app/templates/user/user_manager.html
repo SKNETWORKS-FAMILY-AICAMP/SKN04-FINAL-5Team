@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Management</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background-color: #f7f7f7;
+      }
+
+      .container {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        height: 80vh;
+        width: 100%
+        gap: 10px;
+      }
+
+      .header {
+        background-color: #fff;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        gap: 20px;
+        align-items: center;
+        border-bottom: 2px solid #ddd;
+      }
+
+      .header button,
+      .header input {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .header button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      .header button:hover {
+        background-color: #0056b3;
+      }
+
+      .search-bar {
+        padding: 10px;
+        background-color: #fff;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        border-bottom: 2px solid #ddd;
+        width: 100%;
+      }
+
+      .main {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 10px;
+        padding: 10px;
+        overflow: hidden;
+      }
+
+      .main .list {
+        overflow-y: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+
+      .main table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff;
+      }
+
+      .main th,
+      .main td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .main th {
+        background-color: #007bff;
+        color: #fff;
+      }
+
+      .main tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+      }
+
+      .main .details {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .details label,
+      .details input {
+        display: block;
+        font-size: 1rem;
+        margin-bottom: 10px;
+        width: 200px;
+      }
+
+      .details button {
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 1rem;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .details button:hover {
+        background-color: #218838;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header with Buttons -->
+      <div class="header">
+        <h1>User Management</h1>
+        <div class="buttons">
+          <button id="search_button">조회</button>
+          <button id="new_button">새로 만들기</button>
+          <button id="delete_selected_button" style="background-color: #dc3545">삭제</button>
+          <button id="save_button">저장</button>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div style="width: 100%; padding: 10px;">
+        Username : <input type="text" id="search_username" placeholder="Search by Username" />
+        User ID : <input type="text" id="search_userid"   placeholder="Search by User ID" />
+        Start Date : <input type="date" id="search_start_dt" placeholder="Search by Start Date" />
+      </div>
+
+      <!-- Main Content -->
+      <div class="main">
+        <!-- User List -->
+        <div class="list">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" id="select_all" /></th>
+                <th>ID</th>
+                <th>Username</th>
+                <th>User ID</th>
+                <th>Created Date</th>
+              </tr>
+            </thead>
+            <tbody id="user_list">
+              <!-- User data will be dynamically populated here -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- User Details -->
+        <div class="details">
+          <form action="/your-action" method="post">
+
+          <label for="detail_username">Username:</label>
+          <input type="text" id="detail_username" placeholder="Username" />
+
+          <label for="detail_userid">User ID:</label>
+          <input type="text" id="detail_userid" placeholder="User ID" style="width: 100px"/>
+
+          <label for="detail_password">Password:</label>
+          <input type="password" name="passowrd" id="detail_password" placeholder="Password" autocomplete="new-password" style="width: 100px"/>
+
+          <label for="detail_start_dt">Created Date:</label>
+          <input type="date" id="detail_start_dt" />
+
+          <label for="detail_email">E-Mail:</label>
+          <input type="text" id="detail_email" />
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+   </script>
+  </body>
+</html>

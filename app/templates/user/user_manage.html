@@ -1,0 +1,78 @@
+{% block content %}
+<h2 style="color: #007bff;">{{ title }}</h2> <!-- 타이틀 색상 변경 -->
+
+<div class="container">
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="사용자 이름으로 검색..." class="form-control" />
+        <button onclick="searchUsers()" class="btn btn-primary">검색</button>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody id="user-table-body">
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <a href="#" onclick="loadMainContent('/users/manage/edit/{{ user.id }}'); return false;" class="btn btn-primary btn-sm">수정</a>
+                    <a href="#" onclick="loadMainContent('/users/manage/delete/{{ user.id }}'); return false;" class="btn btn-danger btn-sm">삭제</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .container {
+        width: 100%; /* 전체 너비 */
+        max-width: 1200px; /* 최대 너비 설정 */
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        overflow: auto; /* 내용이 넘칠 경우 스크롤 가능 */
+    }
+
+    .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-start; /* 검색 바의 요소를 왼쪽으로 정렬 */
+    }
+
+    .form-control {
+        flex: 1; /* 입력 필드가 가능한 공간을 차지하도록 설정 */
+        margin-right: 10px; /* 버튼과의 간격 */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+</style>
+
+<script>
+    function searchUsers() {
+        const searchValue = document.getElementById('search').value.toLowerCase();
+        const rows = document.querySelectorAll('#user-table-body tr');
+
+        rows.forEach(row => {
+            const username = row.cells[1].textContent.toLowerCase(); // 이름 열
+            if (username.includes(searchValue)) {
+                row.style.display = ''; // 일치하는 경우 표시
+            } else {
+                row.style.display = 'none'; // 일치하지 않는 경우 숨김
+            }
+        });
+    }
+</script>
+{% endblock %}
