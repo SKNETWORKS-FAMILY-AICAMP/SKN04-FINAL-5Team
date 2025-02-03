@@ -1,0 +1,27 @@
+{% extends "layouts/main.html" %}
+{% block content %}
+<h2>사용자 목록</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>작업</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <a href="/users/delete/{{ user.id }}" class="btn btn-danger btn-sm">삭제</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="/users/register" class="btn btn-primary">사용자 등록</a>
+{% endblock %}

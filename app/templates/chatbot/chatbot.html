@@ -1,0 +1,300 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    :root {
+        --bg-primary: #343541;
+        --bg-secondary: #444654;
+        --text-primary: #FFFFFF;
+        --text-secondary: #8E8EA0;
+        --accent-color: #10A37F;
+        --input-bg: #40414F;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body, html {
+        height: 100%;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        line-height: 1.6;
+        overflow: hidden;
+    }
+
+    .main-container {
+        display: flex;
+        height: calc(100vh - 110px); /* 상단바 높이만큼 제외 */
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .sidebar {
+        width: 260px;
+        background-color: var(--bg-secondary);
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .new-chat-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .chat-list {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .chat-item {
+        padding: 10px;
+        margin: 5px 0;
+        background-color: transparent;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .chat-item:hover {
+        background-color: rgba(255,255,255,0.1);
+    }
+
+    .chatbot-container {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bg-primary);
+        max-height: 100%; /* 최대 높이 제한 */
+    }
+
+    .chat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background-color: var(--bg-secondary);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .chat-header h2 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .chat-header .header-icons {
+        display: flex;
+        gap: 15px;
+        color: var(--text-secondary);
+    }
+
+    .messages-container {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-height: calc(100vh - 250px); /* 상단바와 입력창 높이 더 크게 제외 */
+        scrollbar-width: thin;
+        scrollbar-color: var(--accent-color) transparent;
+    }
+
+    .messages-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .messages-container::-webkit-scrollbar-thumb {
+        background-color: var(--accent-color);
+        border-radius: 4px;
+    }
+
+    .message {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        max-width: 90%;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .message-avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .user-avatar {
+        background-color: #10A37F;
+        color: white;
+    }
+
+    .bot-avatar {
+        background-color: #5436DA;
+        color: white;
+    }
+
+    .message-content {
+        flex-grow: 1;
+    }
+
+    .user-message {
+        background-color: var(--input-bg);
+        align-self: flex-end;
+        margin-left: auto;
+    }
+
+    .bot-message {
+        background-color: var(--bg-secondary);
+        align-self: flex-start;
+    }
+
+    .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--text-secondary);
+        font-style: italic;
+    }
+
+    .typing-dot {
+        width: 5px;
+        height: 5px;
+        background-color: var(--text-secondary);
+        border-radius: 50%;
+        animation: typing 1.4s infinite;
+    }
+
+    @keyframes typing {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 1; }
+    }
+
+    .input-area {
+        display: flex;  /* 추가: flexbox로 변경 */
+        align-items: center;  /* 추가: 수직 정렬 */
+        padding: 8px 12px;
+        background-color: var(--bg-secondary);
+        border-top: 1px solid rgba(255,255,255,0.1);
+        height: 50px; /* 입력 영역 높이 유지 */
+        gap: 10px;  /* 추가: 입력창과 버튼 사이 간격 */
+    }
+
+
+    #userInput {
+        flex-grow: 1;  /* 추가: 남은 공간 차지 */
+        width: auto;  /* 변경: 자동 너비 */
+        background-color: var(--input-bg);
+        border: none;
+        color: var(--text-primary);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        outline: none;
+        height: 35px;  /* 추가: 고정 높이 */
+    }
+
+    #sendButton {
+        width: 40px;  /* 추가: 고정 너비 */
+        height: 35px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 6px;
+    }
+
+    #sendButton i {
+        font-size: 16px;  /* 아이콘 크기 조정 */
+    }
+
+    @media (max-width: 768px) {
+        .main-container {
+            height: calc(100vh - 40px); /* 모바일에서 상단바 높이 더 축소 */
+        }
+
+        .messages-container {
+            max-height: calc(100vh - 120px);
+        }
+    }
+</style>
+<div class="main-container">
+<!-- 사이드바 -->
+<!--<div class="sidebar">
+    <div class="sidebar-header">
+        <h2>채팅</h2>
+        <button class="new-chat-btn">
+            <i class="fas fa-plus"></i> 새 채팅
+        </button>
+    </div>
+    <div class="chat-list">
+        <div class="chat-item">
+            <i class="fas fa-comment"></i> 이전 대화 1
+        </div>
+        <div class="chat-item">
+            <i class="fas fa-comment"></i> 이전 대화 2
+        </div>
+    </div>
+</div>
+-->
+
+<!-- 채팅 컨테이너 -->
+<div class="chatbot-container">
+    <div class="chat-header">
+        <h2>{{ page_title }}</h2>
+        <div class="header-icons">
+            <i class="fas fa-refresh"></i>
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+    </div>
+
+    <div class="messages-container" id="messages">
+        <div class="message bot-message">
+            <div class="message-avatar bot-avatar">AI</div>
+            <div class="message-content">안녕하세요! 무엇을 도와드릴까요?</div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+            <span>AI가 입력 중</span>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="메시지 입력..." />
+        <button id="sendButton">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+</div>

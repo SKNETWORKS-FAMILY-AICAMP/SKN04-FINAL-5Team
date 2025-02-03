@@ -1,0 +1,20 @@
+{% extends "layouts/main.html" %}
+{% block content %}
+<h2>사용자 등록</h2>
+<form method="post" action="/users/register">
+    <div class="mb-3">
+        <label for="username" class="form-label">사용자 이름</label>
+        <input type="text" id="username" name="username" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">이메일</label>
+        <input type="email" id="email" name="email" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">비밀번호</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">등록</button>
+</form>
+<a href="/users/list" class="btn btn-secondary">뒤로</a>
+{% endblock %}
