@@ -20,7 +20,11 @@ function handleSendMessage() {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: message }),
+        body: JSON.stringify({ 
+            username: 'user',  // 여기에 실제 사용자 이름을 입력
+            password: '1111',  // 여기에 실제 비밀번호를 입력
+            message: message 
+        }),
     })
     .then(response => {
         if (!response.ok) {
@@ -29,11 +33,21 @@ function handleSendMessage() {
         return response.json();
     })
     .then(data => {
+
+        console.log("data.output.result.content:" , data.output.result.content )            
+
+        // API 응답 처리
+        const botReply = ( data.output?.result.content || '응답을 처리할 수 없습니다.' )
+            .replace(/\n/g, '<br>')  // \n을 <br>로 변환
+            .replace(/<br><br>/g, '<br>');  // 연속된 <br>를 하나로 줄이기   
+            
+        console.log("botReply:" , botReply)            
+        
         // 타이핑 인디케이터 숨기기
         document.getElementById('typingIndicator').style.display = 'none';
         
         // 봇 메시지 표시
-        displayMessage(data.reply, 'bot');
+        displayMessage(botReply, 'bot');
         
         // 입력 필드 다시 활성화
         userInput.disabled = false;
@@ -54,17 +68,6 @@ function handleSendMessage() {
 }
 
 function displayMessage(message, sender) {
-    // const messagesDiv = document.getElementById('messages');
-    // const messageDiv = document.createElement('div');
-    // messageDiv.className = `message ${sender}-message`;
-    // messageDiv.textContent = message;
-    
-    // // 타이핑 인디케이터 앞에 메시지 추가
-    // const typingIndicator = document.getElementById('typingIndicator');
-    // messagesDiv.insertBefore(messageDiv, typingIndicator);
-    
-    // // 스크롤을 가장 아래로
-    // messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
     const messagesDiv = document.getElementById('messages');
     const messageDiv = document.createElement('div');
@@ -76,7 +79,7 @@ function displayMessage(message, sender) {
 
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
-    contentDiv.textContent = message;
+    contentDiv.innerHTML = message;
 
     messageDiv.appendChild(avatarDiv);
     messageDiv.appendChild(contentDiv);
